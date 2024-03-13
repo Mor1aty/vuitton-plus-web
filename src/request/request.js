@@ -2,7 +2,7 @@ import axios from "axios";
 import {showFailToast, showLoadingToast} from "vant";
 
 const instance = axios.create({
-    baseURL: "http://192.168.0.6:8000/",
+    baseURL: "http://192.168.50.112:8000/",
     timeout: 60000
 });
 
