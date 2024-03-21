@@ -21,6 +21,12 @@ const downloaderMarkSelect = ({selectedValues}) => {
 };
 
 const actuatorDownload = () => {
+  if (catalogueUrl.value[0] !== '/') {
+    catalogueUrl.value = '/' + catalogueUrl.value;
+  }
+  if (catalogueUrl.value[catalogueUrl.value.length - 1] !== '/') {
+    catalogueUrl.value += '/';
+  }
   apiSendWrapFunc(apiActuatorDownload({
         name: novelName.value,
         catalogueUrl: catalogueUrl.value,

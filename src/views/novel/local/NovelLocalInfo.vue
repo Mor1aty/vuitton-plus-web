@@ -13,7 +13,7 @@ const novel = novelLocalStore.$state.novel;
 const chapterList = ref([]);
 const total = ref(0);
 const pageNum = ref(1);
-const pageSize = 7;
+const pageSize = 12;
 const continueRead = ref(null);
 const operates = [
   {
@@ -25,6 +25,14 @@ const operates = [
       router.push({name: "novelLocalHistory"});
     },
   },
+  {
+    text: "下载",
+    action: () => {
+      window.open(import.meta.env.VITE_API_URL + "novel/local/downloadNovel?"
+          + "novelId=" + novel.id
+          , "_self");
+    }
+  }
 ];
 
 const searchNovelChapter = () => {

@@ -12,7 +12,11 @@ const actuatorDataActive = ref([""]);
 
 const goActuatorStepData = () => {
   router.push({name: "novelDownloadActuatorStepData"});
-}
+};
+
+const goNovelLocal = () => {
+  router.push({name: "novelLocal"});
+};
 
 const refreshActuator = () => {
   apiSendWrapFunc(apiActuatorSnapshot({id: actuator.value.meta.id}),
@@ -109,6 +113,11 @@ if (!actuator.value) {
       <van-field label="步骤数据" readonly>
         <template #input>
           <van-tag type="primary" @click="goActuatorStepData" size="large">查看</van-tag>
+        </template>
+      </van-field>
+      <van-field label="查看本地小说" readonly v-if="!actuator.running">
+        <template #input>
+          <van-tag type="primary" @click="goNovelLocal" size="large">查看</van-tag>
         </template>
       </van-field>
     </van-cell-group>

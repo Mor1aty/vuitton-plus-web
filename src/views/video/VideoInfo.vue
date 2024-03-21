@@ -13,7 +13,7 @@ const video = videoStore.$state.video;
 const episodeList = ref([]);
 const total = ref(0);
 const pageNum = ref(1);
-const pageSize = 7;
+const pageSize = 12;
 const continuePlay = ref(null);
 const operates = [
   {

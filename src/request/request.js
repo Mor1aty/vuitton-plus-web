@@ -1,8 +1,13 @@
 import axios from "axios";
 import {showFailToast, showLoadingToast} from "vant";
+import {ref} from "vue";
+
+const apiUrl = ref(import.meta.env.VITE_API_URL);
+
+console.log(import.meta.env.VITE_API_URL)
 
 const instance = axios.create({
-    baseURL: "http://192.168.50.112:8000/",
+    baseURL: import.meta.env.VITE_API_URL,
     timeout: 60000
 });
 
@@ -15,7 +20,7 @@ instance.interceptors.response.use(
         }
     },
     error => {
-        console.log('请求异常: ', error)
+        console.log("请求异常: ", error)
         return Promise.reject(error)
     }
 );

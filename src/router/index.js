@@ -1,19 +1,20 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import IndexView from "@/views/IndexView.vue";
-import SettingView from "@/views/SettingView.vue";
-import NovelLocalView from "@/views/novel/local/NovelLocalView.vue";
-import NovelNetworkView from "@/views/novel/network/NovelNetworkView.vue";
-import VideoView from "@/views/video/VideoView.vue";
-import NovelLocalInfoView from "@/views/novel/local/NovelLocalInfoView.vue";
-import NovelLocalContentView from "@/views/novel/local/NovelLocalContentView.vue";
+import Index from "@/views/Index.vue";
+import Setting from "@/views/Setting.vue";
+import NovelLocal from "@/views/novel/local/NovelLocal.vue";
+import NovelNetwork from "@/views/novel/network/NovelNetwork.vue";
+import Video from "@/views/video/Video.vue";
+import NovelLocalInfo from "@/views/novel/local/NovelLocalInfo.vue";
+import NovelLocalContent from "@/views/novel/local/NovelLocalContent.vue";
 import NovelDownloadActuator from "@/views/novel/network/actuator/NovelDownloadActuator.vue";
 import NovelDownloadActuatorInfo from "@/views/novel/network/actuator/NovelDownloadActuatorInfo.vue";
 import NovelDownloadActuatorAdd from "@/views/novel/network/actuator/NovelDownloadActuatorAdd.vue";
 import NovelDownloadActuatorStepData from "@/views/novel/network/actuator/NovelDownloadActuatorStepData.vue";
-import VideoInfoView from "@/views/video/VideoInfoView.vue";
-import VideoPlayView from "@/views/video/VideoPlayView.vue";
-import NovelLocalHistoryView from "@/views/novel/local/NovelLocalHistoryView.vue";
-import VideoHistoryView from "@/views/video/VideoHistoryView.vue";
+import VideoInfo from "@/views/video/VideoInfo.vue";
+import VideoPlay from "@/views/video/VideoPlay.vue";
+import NovelLocalHistory from "@/views/novel/local/NovelLocalHistory.vue";
+import VideoHistory from "@/views/video/VideoHistory.vue";
+import NovelDownloader from "@/views/novel/network/NovelDownloader.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,37 +26,37 @@ const router = createRouter({
         {
             name: "index",
             path: "/index",
-            component: IndexView,
+            component: Index,
         },
         {
             name: "setting",
             path: "/setting",
-            component: SettingView,
+            component: Setting,
         },
         {
             name: "novelLocal",
             path: "/novel/local",
-            component: NovelLocalView,
+            component: NovelLocal,
         },
         {
             name: "novelLocalInfo",
             path: "/novel/local/info",
-            component: NovelLocalInfoView,
+            component: NovelLocalInfo,
         },
         {
             name: "novelLocalContent",
             path: "/novel/local/content",
-            component: NovelLocalContentView,
+            component: NovelLocalContent,
         },
         {
             name: "novelLocalHistory",
             path: "/novel/local/history",
-            component: NovelLocalHistoryView,
+            component: NovelLocalHistory,
         },
         {
             name: "novelNetwork",
             path: "/novel/network",
-            component: NovelNetworkView,
+            component: NovelNetwork,
         },
         {
             name: "novelDownloadActuator",
@@ -78,24 +79,29 @@ const router = createRouter({
             component: NovelDownloadActuatorStepData,
         },
         {
+            name: "novelDownloader",
+            path: "/novel/network/downloader",
+            component: NovelDownloader,
+        },
+        {
             name: "video",
             path: "/video",
-            component: VideoView,
+            component: Video,
         },
         {
             name: "videoInfo",
             path: "/video/info",
-            component: VideoInfoView,
+            component: VideoInfo,
         },
         {
             name: "videoPlay",
             path: "/video/play",
-            component: VideoPlayView,
+            component: VideoPlay,
         },
         {
             name: "videoHistory",
             path: "/video/history",
-            component: VideoHistoryView,
+            component: VideoHistory,
         },
     ]
 })

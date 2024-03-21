@@ -4,11 +4,11 @@ call undeploy.bat
 
 echo deploy begin
 
-call yarn build
-
 cd ..
 
-ssh -p 22 moriaty@192.168.50.112 "mkdir -p /tmp/vuitton-plus-web"
+call yarn run build
+
+ssh -p 22 moriaty@192.168.50.112 "rm -rf /tmp/vuitton-plus-web && mkdir -p /tmp/vuitton-plus-web"
 
 scp -r dist moriaty@192.168.50.112:/tmp/vuitton-plus-web/dist
 
