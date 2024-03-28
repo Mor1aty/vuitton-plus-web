@@ -16,6 +16,10 @@ const copyToClipboard = async (content) => {
   }
 };
 
+const shuttleToDownloaderWeb = (website) => {
+  window.open(website);
+};
+
 </script>
 
 <template>
@@ -27,7 +31,14 @@ const copyToClipboard = async (content) => {
         <van-field label="网站名" v-model="novelDownloader.webName" readonly/>
         <van-field label="网站地址" v-model="novelDownloader.website" readonly>
           <template #right-icon>
-            <van-icon name="orders-o" @click="copyToClipboard(novelDownloader.website)"/>
+            <van-row gutter="16">
+              <van-col span="8">
+                <van-icon name="orders-o" @click="copyToClipboard(novelDownloader.website)"/>
+              </van-col>
+              <van-col span="8">
+                <van-icon name="share-o" @click="shuttleToDownloaderWeb(novelDownloader.website)"/>
+              </van-col>
+            </van-row>
           </template>
         </van-field>
         <van-field label="下载 Mark" v-model="novelDownloader.mark" readonly/>
