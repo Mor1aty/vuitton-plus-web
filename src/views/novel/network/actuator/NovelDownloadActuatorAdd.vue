@@ -1,7 +1,7 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
 import {ref} from "vue";
-import {useServerInfo} from "@/stores/store.js";
+import {useNovelDownloadActuatorAdd, useServerInfo} from "@/stores/store.js";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiActuatorDownload} from "@/request/api/novel_network.js";
 import {showSuccessToast} from "vant";
@@ -9,9 +9,10 @@ import {useRouter} from "vue-router";
 
 const router = useRouter();
 const novelDownloaderList = useServerInfo().$state.novelDownloaderList;
+const novelDownloadActuatorAdd = useNovelDownloadActuatorAdd();
 const novelName = ref("");
 const catalogueUrl = ref("");
-const downloaderMark = ref("");
+const downloaderMark = ref(novelDownloadActuatorAdd.$state.downloaderMark);
 const showDownloaderMark = ref(false);
 const downloaderMarkColumns = [];
 
@@ -38,6 +39,7 @@ const actuatorDownload = () => {
       });
 }
 
+novelDownloadActuatorAdd.$patch({downloaderMark: ""});
 for (const novelDownloader of novelDownloaderList) {
   downloaderMarkColumns.push({
     text: novelDownloader.webName + "[" + novelDownloader.mark + "]",

@@ -48,6 +48,7 @@ const goVideoPlay = (playIndex) => {
 const findPlayHistory = () => {
   apiSendWrapFunc(apiFindPlayHistory({
         videoId: video.id,
+        limitNum: 1,
       }),
       (data) => {
         if (data && data.length > 0) {

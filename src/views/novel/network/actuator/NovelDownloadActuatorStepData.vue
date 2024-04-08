@@ -1,6 +1,6 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
-import {useNovelActuator} from "@/stores/store.js";
+import {useNovelDownloadActuator} from "@/stores/store.js";
 import {useRouter} from "vue-router";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiActuatorSnapshotStepData} from "@/request/api/novel_network.js";
@@ -9,7 +9,7 @@ import {showConfirmDialog, showToast} from "vant";
 import useClipboard from "vue-clipboard3";
 
 const clipboard = useClipboard();
-const actuatorId = useNovelActuator().$state.id;
+const actuatorId = useNovelDownloadActuator().$state.id;
 
 const stepData = ref([]);
 const stepDataActive = ref([""]);

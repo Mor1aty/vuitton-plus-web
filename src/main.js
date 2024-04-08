@@ -3,9 +3,9 @@ import {createPinia} from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-import {apiCommonInfo} from "@/request/api/common.js";
+import {apiInfo, apiSetting} from "@/request/api/common.js";
 import {SUCCESS_CODE} from "@/request/request.js";
-import {useServerInfo} from "@/stores/store.js";
+import {useServerInfo, useSetting} from "@/stores/store.js";
 import "./main.css"
 import Vant from "vant";
 import 'vant/lib/index.css';
@@ -16,10 +16,10 @@ app.use(router);
 app.mount('#app');
 app.use(Vant);
 
-const init = async () => {
-    const {code, msg, data} = await apiCommonInfo()();
+const initInfo = async () => {
+    const {code, msg, data} = await apiInfo()();
     if (code !== SUCCESS_CODE) {
-        console.log("初始化失败, ", msg)
+        console.log("初始化失败, ", msg);
     } else {
         useServerInfo().$patch({
             fileServerUrl: data.fileServerUrl,
@@ -27,6 +27,20 @@ const init = async () => {
             novelDownloaderList: data.novelDownloaderList,
         });
     }
+};
+
+const initSetting = async () => {
+    const {code, msg, data} = await apiSetting()();
+    if (code !== SUCCESS_CODE) {
+        console.log("初始化失败, ", msg);
+    } else {
+        useSetting().$patch(data);
+    }
+};
+
+const init = async () => {
+    await initInfo();
+    await initSetting();
 };
 
 init().catch();

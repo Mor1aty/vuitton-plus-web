@@ -1,13 +1,13 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
-import {useNovelActuator} from "@/stores/store.js";
+import {useNovelDownloadActuator} from "@/stores/store.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiActuatorSnapshot} from "@/request/api/novel_network.js";
 
 const router = useRouter();
-const actuator = ref(useNovelActuator().$state.actuator);
+const actuator = ref(useNovelDownloadActuator().$state.actuator);
 const actuatorDataActive = ref([""]);
 
 const goActuatorStepData = () => {

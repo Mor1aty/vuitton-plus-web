@@ -1,10 +1,13 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
-import {useServerInfo} from "@/stores/store.js";
+import {useNovelDownloadActuatorAdd, useServerInfo} from "@/stores/store.js";
 import useClipboard from "vue-clipboard3";
 import {showToast} from "vant";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const clipboard = useClipboard();
+const novelDownloadActuatorAdd = useNovelDownloadActuatorAdd();
 const novelDownloaderList = useServerInfo().$state.novelDownloaderList;
 
 const copyToClipboard = async (content) => {
@@ -18,6 +21,11 @@ const copyToClipboard = async (content) => {
 
 const shuttleToDownloaderWeb = (website) => {
   window.open(website);
+};
+
+const goActuatorAdd = (downloaderMark) => {
+  novelDownloadActuatorAdd.$patch({downloaderMark: downloaderMark});
+  router.push({name: "novelDownloadActuatorAdd"});
 };
 
 </script>
@@ -47,6 +55,11 @@ const shuttleToDownloaderWeb = (website) => {
             <van-tag :type="novelDownloader.disable?'danger':'primary'" size="large">
               {{ novelDownloader.disable ? "不可用" : "可用" }}
             </van-tag>
+          </template>
+        </van-field>
+        <van-field label="操作" readonly>
+          <template #input>
+            <van-tag type="success" @click="goActuatorAdd(novelDownloader.mark)" size="large">小说下载</van-tag>
           </template>
         </van-field>
       </van-cell-group>

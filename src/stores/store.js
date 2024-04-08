@@ -11,6 +11,15 @@ export const useServerInfo
     }
 });
 
+export const useSetting
+    = defineStore("setting", {
+    state: () => {
+        return {
+            videoPlayer: {}
+        };
+    }
+});
+
 export const useNovelLocal
     = defineStore("novelLocal", {
     state: () => {
@@ -23,8 +32,8 @@ export const useNovelLocal
     }
 });
 
-export const useNovelActuator
-    = defineStore("novelActuator", {
+export const useNovelDownloadActuator
+    = defineStore("novelDownloadActuator", {
     state: () => {
         return {
             id: null,
@@ -41,6 +50,15 @@ export const useVideo
             video: {},
             playIndex: -1,
             historyBack: "",
+        };
+    }
+});
+
+export const useNovelDownloadActuatorAdd
+    = defineStore("novelDownloadActuatorAdd", {
+    state: () => {
+        return {
+            downloaderMark: ""
         };
     }
 });

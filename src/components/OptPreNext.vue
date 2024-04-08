@@ -4,12 +4,18 @@ const props = defineProps(["preText", "nextText", "preClick", "nextClick", "preI
 </script>
 
 <template>
-  <van-row class="opt">
+  <van-row :gutter="20" class="opt">
     <van-col span="12">
-      <a v-if="props.preIf" @click="props.preClick" type="primary">{{ props.preText }}</a>
+      <van-button plain hairline type="primary" block
+                  v-if="props.preIf" @click="props.preClick">
+        {{ props.preText }}
+      </van-button>
     </van-col>
     <van-col span="12">
-      <a v-if="props.nextIf" class="opt-next" @click="props.nextClick" type="primary">{{ props.nextText }}</a>
+      <van-button plain hairline type="primary" block class="opt-next"
+                  v-if="props.nextIf" @click="props.nextClick">
+        {{ props.nextText }}
+      </van-button>
     </van-col>
   </van-row>
 </template>
@@ -17,7 +23,6 @@ const props = defineProps(["preText", "nextText", "preClick", "nextClick", "preI
 <style scoped>
 .opt {
   margin-top: 0.3rem;
-  color: rgba(0, 0, 255, 0.8);
 }
 
 .opt-next {
