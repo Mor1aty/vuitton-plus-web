@@ -6,6 +6,7 @@ import InfoCard from "@/components/InfoCard.vue";
 import {apiFindChapter, apiFindReadHistory} from "@/request/api/novel_local.js";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {useRouter} from "vue-router";
+import {showDialog, showToast} from "vant";
 
 const router = useRouter();
 const novelLocalStore = useNovelLocal();
@@ -16,15 +17,6 @@ const pageNum = ref(1);
 const pageSize = 12;
 const continueRead = ref(null);
 const operates = [
-  {
-    text: "阅读历史",
-    action: () => {
-      novelLocalStore.$patch({
-        historyBack: "novelLocalInfo",
-      });
-      router.push({name: "novelLocalHistory"});
-    },
-  },
   {
     text: "下载",
     action: () => {
@@ -64,6 +56,16 @@ const findReadHistory = () => {
       });
 };
 
+const showReadTime = (continueRead) => {
+  showDialog({
+    title: continueRead.chapterTitle,
+    message: "小说: " + continueRead.novelName
+        + "\n作者: " + continueRead.novelAuthor
+        + "\n阅读时间: " + continueRead.readTime,
+    closeOnClickOverlay: true,
+  });
+};
+
 if (!novel || !novel.id) {
   router.push({name: "novelLocal"});
 } else {
@@ -81,10 +83,19 @@ if (!novel || !novel.id) {
       :description="novel.intro"
       :img-url="novel.imgUrl"/>
   <div class="content" v-if="novel">
-    <van-cell v-if="continueRead" @click="goNovelContent(continueRead.chapterIndex)">
+    <van-cell v-if="continueRead">
       <template #title>
-        <van-tag type="success" size="large">继续阅读</van-tag>
-        {{ continueRead.chapterTitle }}
+        <van-row gutter="20">
+          <van-col span="6">
+            <van-tag type="success" size="large">继续阅读</van-tag>
+          </van-col>
+          <van-col span="15" @click="goNovelContent(continueRead.chapterIndex)">
+            {{ continueRead.chapterTitle }}
+          </van-col>
+          <van-col span="1">
+            <van-icon name="info-o" @click="showReadTime(continueRead)"/>
+          </van-col>
+        </van-row>
       </template>
     </van-cell>
     <van-list :finished="true">

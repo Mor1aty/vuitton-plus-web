@@ -6,6 +6,7 @@ import {useVideo} from "@/stores/store.js";
 import {ref} from "vue";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiFindEpisode, apiFindPlayHistory} from "@/request/api/video.js";
+import {showDialog} from "vant";
 
 const router = useRouter();
 const videoStore = useVideo();
@@ -15,17 +16,6 @@ const total = ref(0);
 const pageNum = ref(1);
 const pageSize = 12;
 const continuePlay = ref(null);
-const operates = [
-  {
-    text: "播放历史",
-    action: () => {
-      videoStore.$patch({
-        historyBack: "videoInfo",
-      });
-      router.push({name: "videoHistory"});
-    },
-  },
-];
 
 const searchEpisode = () => {
   apiSendWrapFunc(apiFindEpisode({
@@ -40,8 +30,8 @@ const searchEpisode = () => {
   );
 };
 
-const goVideoPlay = (playIndex) => {
-  videoStore.$patch({playIndex: playIndex});
+const goVideoPlay = (playIndex, continueSecond) => {
+  videoStore.$patch({playIndex: playIndex, continueSecond: continueSecond});
   router.push({name: "videoPlay"})
 }
 
@@ -57,6 +47,16 @@ const findPlayHistory = () => {
       });
 };
 
+const showPlayTime = (continuePlay) => {
+  showDialog({
+    title: continuePlay.episodeName,
+    message: "电视剧: " + continuePlay.videoName
+        + "\n播放时间: " + continuePlay.playTime
+        + "\n上次播放到: " + continuePlay.episodePlaySecondStr,
+    closeOnClickOverlay: true,
+  });
+};
+
 if (!video || !video.id) {
   router.push({name: "video"});
 } else {
@@ -67,22 +67,33 @@ if (!video || !video.id) {
 </script>
 
 <template>
-  <Navbar title="视频" back="video" :operates="operates"/>
+  <Navbar title="视频" back="video"/>
   <InfoCard
       v-if="video"
       :title="video.name"
       :description="video.description"
       :img-url="video.imgUrl"/>
   <div class="content" v-if="video">
-    <van-cell v-if="continuePlay" @click="goVideoPlay(continuePlay.episodeIndex)">
+    <van-cell v-if="continuePlay">
       <template #title>
-        <van-tag type="success" size="large">继续播放</van-tag>
-        {{ continuePlay.episodeName }}
+        <van-row gutter="20">
+          <van-col span="6">
+            <van-tag type="success" size="large">继续播放</van-tag>
+          </van-col>
+          <van-col span="15" @click="goVideoPlay(continuePlay.episodeIndex, continuePlay.episodePlaySecond)">
+            <van-text-ellipsis :content="continuePlay.episodeName+' '+continuePlay.episodePlaySecondStr"/>
+          </van-col>
+          <van-col span="1">
+            <van-icon name="info-o" @click="showPlayTime(continuePlay)"/>
+          </van-col>
+        </van-row>
+
+
       </template>
     </van-cell>
     <van-list :finished="true">
       <van-cell v-for="(episode, index) in episodeList" :key="index" :title="episode.name"
-                @click="goVideoPlay(episode.index)"/>
+                @click="goVideoPlay(episode.index, null)"/>
     </van-list>
     <van-pagination
         v-model="pageNum"

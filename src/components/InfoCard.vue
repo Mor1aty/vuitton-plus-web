@@ -14,7 +14,7 @@ const onClick = () => {
 };
 
 const descriptionOnClick = () => {
-  showDialog({message: props.description, messageAlign: "left"});
+  showDialog({message: props.description, messageAlign: "left", closeOnClickOverlay: true});
 }
 
 const previewImg = () => {

@@ -52,3 +52,12 @@ export const apiSendWrapFunc = async (apiFunc, dataFunc) => {
     dataFunc(data);
     loading.close();
 }
+
+export const apiSendWrapFuncWithoutLoading = async (apiFunc, dataFunc) => {
+    const {code, msg, data} = await apiFunc();
+    if (code !== SUCCESS_CODE) {
+        showFailToast(msg);
+        return;
+    }
+    dataFunc(data);
+};

@@ -2,7 +2,7 @@
 import Navbar from "@/components/Navbar.vue";
 import {useSetting, useVideo} from "@/stores/store.js";
 import {ref} from "vue";
-import {apiSendWrapFunc} from "@/request/request.js";
+import {apiSendWrapFunc, apiSendWrapFuncWithoutLoading} from "@/request/request.js";
 import {apiFindAroundEpisode, apiInsertPlayHistory} from "@/request/api/video.js";
 import OptPreNext from "@/components/OptPreNext.vue";
 import {useRouter} from "vue-router";
@@ -14,6 +14,7 @@ const router = useRouter();
 const videoStore = useVideo();
 const video = videoStore.$state.video;
 let playIndex = videoStore.$state.playIndex;
+const continueSecond = videoStore.$state.continueSecond;
 const videoPlayerSetting = useSetting().$state.videoPlayer;
 const aroundEpisode = ref({});
 const videoKey = ref(0);
@@ -39,7 +40,6 @@ const searchAroundEpisode = () => {
             eds.value = [data.episode.edStart, data.episode.edEnd];
           }
         }
-        insertPlayHistory();
       }
   );
 };
@@ -50,10 +50,12 @@ const goAnotherEpisode = (anotherIndex) => {
   searchAroundEpisode();
 }
 
-const insertPlayHistory = () => {
-  apiSendWrapFunc(apiInsertPlayHistory({
+const insertPlayHistory = (playSecond, store) => {
+  apiSendWrapFuncWithoutLoading(apiInsertPlayHistory({
         videoId: video.id,
         episodeId: aroundEpisode.value.episode.id,
+        episodePlaySecond: playSecond,
+        store: store,
       }),
       () => {
       });
@@ -94,8 +96,10 @@ if (!video || !video.id || playIndex === -1) {
 <template>
   <Navbar title="视频" back="videoInfo"/>
   <div class="video-title" v-if="aroundEpisode.episode">{{ aroundEpisode.episode.name }}</div>
-  <XgpVideoPlayer v-if="aroundEpisode.episode" :video-src="aroundEpisode.episode.url"
-                  :key="videoKey" :skip-op-ed="settingSkipOpEd" :ops="ops" :eds="eds"/>
+  <XgpVideoPlayer :key="videoKey" v-if="aroundEpisode.episode" :video-src="aroundEpisode.episode.url"
+                  :go-next="aroundEpisode.nextEpisode?()=>goAnotherEpisode(aroundEpisode.nextEpisode.index):null"
+                  :jump-second="continueSecond" :insert-history="insertPlayHistory"
+                  :skip-op-ed="settingSkipOpEd" :ops="ops" :eds="eds"/>
   <OptPreNext
       pre-text="上一集"
       :pre-click="()=>goAnotherEpisode(aroundEpisode.preEpisode.index)"

@@ -50,6 +50,7 @@ export const useVideo
             video: {},
             playIndex: -1,
             historyBack: "",
+            continueSecond: null,
         };
     }
 });

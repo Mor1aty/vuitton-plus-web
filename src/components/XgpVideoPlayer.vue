@@ -1,13 +1,15 @@
 <script setup>
 import {useServerInfo} from "@/stores/store.js";
-import Player from "xgplayer"
+import Player, {Events} from "xgplayer"
 import "xgplayer/dist/index.min.css";
 import {onMounted, onUnmounted, ref} from "vue";
 
 const fileServerUrl = useServerInfo().$state.fileServerUrl;
-const props = defineProps(["videoSrc", "lastPlaySecond", "skipOpEd", "ops", "eds"]);
+const props = defineProps(["videoSrc", "goNext", "jumpSecond", "insertHistory", "skipOpEd", "ops", "eds"]);
 const video = ref();
 const videoRef = ref(null);
+const intervalInsertPlayHistory = ref(0);
+
 let onceSkipOp = true;
 let onceSkipEd = true;
 
@@ -37,33 +39,46 @@ onMounted(() => {
     url: fileServerUrl + props.videoSrc,
     fluid: true,
     playbackRate: [0.5, 1, 1.5, 2],
-    rotate: {
-      innerRotate: true,
-      clockwise: true
+    controls: {
+      mode: "normal",
     },
     download: true,
+    fullscreen: {
+      rotateFullscreen: true,
+    },
+    playnext: {
+      urlList: props.goNext ? [""] : [],
+    },
   });
 
-  videoRef.value.onclick = () => {
-    player.paused ? player.play() : player.pause();
-  };
-
-  player.once("complete", () => {
-    if (props.lastPlaySecond) {
-      player.currentTime = props.lastPlaySecond;
+  player.once(Events.COMPLETE, () => {
+    if (props.jumpSecond) {
+      player.currentTime = props.jumpSecond;
     }
   });
 
+  player.on(Events.PLAYNEXT, () => {
+    props.goNext();
+  })
+
   if (props.skipOpEd && (props.ops || props.eds)) {
-    player.on("timeupdate", () => {
+    player.on(Events.TIME_UPDATE, () => {
       skipOpEd();
     });
   }
+
+  intervalInsertPlayHistory.value = setInterval(() => {
+    props.insertHistory(player.currentTime, false);
+  }, 20 * 1000);
 
   video.value = player;
 });
 
 onUnmounted(() => {
+  if (intervalInsertPlayHistory.value) {
+    clearInterval(intervalInsertPlayHistory.value);
+    props.insertHistory(video.value.currentTime, true);
+  }
   video.value.destroy();
 });
 
