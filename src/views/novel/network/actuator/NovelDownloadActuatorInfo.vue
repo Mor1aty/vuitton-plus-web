@@ -5,8 +5,11 @@ import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiActuatorSnapshot} from "@/request/api/novel_network.js";
+import {showToast} from "vant";
+import useClipboard from "vue-clipboard3";
 
 const router = useRouter();
+const clipboard = useClipboard();
 const actuator = ref(useNovelDownloadActuator().$state.actuator);
 const actuatorDataActive = ref([""]);
 
@@ -26,6 +29,19 @@ const refreshActuator = () => {
         }
       }
   );
+};
+
+const copyToClipboard = async (content) => {
+  try {
+    await clipboard.toClipboard(content);
+    showToast("复制到剪切板")
+  } catch (e) {
+    console.error("复制异常, ", e);
+  }
+};
+
+const shuttleToDownloaderWeb = (website) => {
+  window.open(website);
 };
 
 if (!actuator.value) {
@@ -52,6 +68,11 @@ if (!actuator.value) {
           <van-field label="名称" v-model="actuator.meta.name" readonly/>
           <van-field label="下载小说" v-model="actuator.meta.novelName" readonly/>
           <van-field label="下载目录 Url" v-model="actuator.meta.novelCatalogueUrl" readonly/>
+          <van-field label="下载方式" readonly>
+            <template #input>
+              {{ actuator.meta.parallel === true ? "并行" : "串行" }}
+            </template>
+          </van-field>
           <van-field label="开始时间" v-model="actuator.startTime" readonly/>
           <van-field label="结束时间" v-model="actuator.endTime" v-if="!actuator.running" readonly/>
           <van-field label="是否被打断" readonly>
@@ -65,9 +86,21 @@ if (!actuator.value) {
         <van-collapse-item title="下载器" name="下载器">
           <van-field label="Mark" v-model="actuator.meta.novelDownloaderMeta.mark" readonly/>
           <van-field label="名称" v-model="actuator.meta.novelDownloaderMeta.webName" readonly/>
-          <van-field label="网址" v-model="actuator.meta.novelDownloaderMeta.website" readonly/>
+          <van-field label="地址" v-model="actuator.meta.novelDownloaderMeta.website" readonly>
+            <template #right-icon>
+              <van-row gutter="16">
+                <van-col span="8">
+                  <van-icon name="orders-o" @click="copyToClipboard(actuator.meta.novelDownloaderMeta.website)"/>
+                </van-col>
+                <van-col span="8">
+                  <van-icon name="share-o" @click="shuttleToDownloaderWeb(actuator.meta.novelDownloaderMeta.website)"/>
+                </van-col>
+              </van-row>
+            </template>
+          </van-field>
         </van-collapse-item>
         <van-collapse-item title="配置数据" name="配置数据">
+          <van-field label="步骤数据插件" v-model="actuator.meta.stepDataPlugin" readonly/>
           <van-field label="超时时间" readonly>
             <template #input>
               {{ actuator.meta.timeoutSecond }} 秒

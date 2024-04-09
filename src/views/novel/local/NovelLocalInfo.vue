@@ -6,7 +6,7 @@ import InfoCard from "@/components/InfoCard.vue";
 import {apiFindChapter, apiFindReadHistory} from "@/request/api/novel_local.js";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {useRouter} from "vue-router";
-import {showDialog, showToast} from "vant";
+import {showDialog} from "vant";
 
 const router = useRouter();
 const novelLocalStore = useNovelLocal();

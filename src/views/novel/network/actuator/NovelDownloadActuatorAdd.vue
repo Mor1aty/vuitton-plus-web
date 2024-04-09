@@ -15,6 +15,7 @@ const catalogueUrl = ref("");
 const downloaderMark = ref(novelDownloadActuatorAdd.$state.downloaderMark);
 const showDownloaderMark = ref(false);
 const downloaderMarkColumns = [];
+const parallelDownload = ref("false")
 
 const downloaderMarkSelect = ({selectedValues}) => {
   downloaderMark.value = selectedValues[0];
@@ -32,6 +33,7 @@ const actuatorDownload = () => {
         name: novelName.value,
         catalogueUrl: catalogueUrl.value,
         downloaderMark: downloaderMark.value,
+        parallel: parallelDownload.value === "true",
       }),
       () => {
         showSuccessToast("下载开始");
@@ -81,6 +83,14 @@ for (const novelDownloader of novelDownloaderList) {
               @cancel="showDownloaderMark = false"
           />
         </van-popup>
+        <van-field name="radio" label="下载">
+          <template #input>
+            <van-radio-group v-model="parallelDownload" direction="horizontal">
+              <van-radio name="false">串行</van-radio>
+              <van-radio name="true">并行</van-radio>
+            </van-radio-group>
+          </template>
+        </van-field>
       </van-cell-group>
       <van-button round block type="primary" native-type="submit" class="submit-button">
         提交

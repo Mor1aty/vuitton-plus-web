@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar.vue";
 import InfoCard from "@/components/InfoCard.vue";
 import {useRouter} from "vue-router";
 import {useVideo} from "@/stores/store.js";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {apiSendWrapFunc} from "@/request/request.js";
 import {apiFindEpisode, apiFindPlayHistory} from "@/request/api/video.js";
 import {showDialog} from "vant";
@@ -57,11 +57,16 @@ const showPlayTime = (continuePlay) => {
   });
 };
 
+onMounted(() => {
+  if (video || video.id) {
+    findPlayHistory();
+  }
+});
+
 if (!video || !video.id) {
   router.push({name: "video"});
 } else {
   searchEpisode();
-  findPlayHistory();
 }
 
 </script>
