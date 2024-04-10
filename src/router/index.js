@@ -15,6 +15,7 @@ import VideoPlay from "@/views/video/VideoPlay.vue";
 import NovelLocalHistory from "@/views/novel/local/NovelLocalHistory.vue";
 import VideoHistory from "@/views/video/VideoHistory.vue";
 import NovelDownloader from "@/views/novel/network/NovelDownloader.vue";
+import VideoAdd from "@/views/video/VideoAdd.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,6 +103,11 @@ const router = createRouter({
             name: "videoHistory",
             path: "/video/history",
             component: VideoHistory,
+        },
+        {
+            name: "videoAdd",
+            path: "/video/add",
+            component: VideoAdd,
         },
     ]
 })

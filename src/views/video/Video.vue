@@ -12,8 +12,9 @@ const videoStore = useVideo();
 const searchName = ref(videoStore.$state.searchName);
 const skeletonLoading = ref(false);
 const videoList = ref([]);
-const pageNum = 1;
-const pageSize = 100;
+const total = ref(0);
+const pageNum = ref(1);
+const pageSize = 5;
 const operates = [
   {
     text: "播放历史",
@@ -25,21 +26,29 @@ const operates = [
       router.push({name: "videoHistory"});
     },
   },
+  {
+    text: "新增视频",
+    action: () => {
+      videoStore.$patch({
+        video: null,
+        searchName: searchName.value,
+      });
+      router.push({name: "videoAdd"});
+    },
+  },
 ];
 
-const findVideo = () => {
+const searchVideo = () => {
   apiSendWrapFunc(apiFindVideo({
         name: searchName.value,
-        pageNum: pageNum,
+        pageNum: pageNum.value,
         pageSize: pageSize,
       }),
       (data) => {
         videoList.value = data.list;
+        total.value = data.total;
       }
   );
-};
-const searchVideo = () => {
-  findVideo();
 };
 
 const goVideoInfo = (video) => {
@@ -50,7 +59,7 @@ const goVideoInfo = (video) => {
   router.push({name: "videoInfo"});
 };
 
-findVideo();
+searchVideo();
 </script>
 
 <template>
@@ -63,10 +72,19 @@ findVideo();
       <InfoCard
           v-else
           v-for="video in videoList"
+          :key="video.id"
           :title="video.name"
-          :description="video.description"
+          :description="'简介: '+video.description+'\n创建时间: '+video.createTime"
           :img-url="video.imgUrl"
           :on-click="()=>goVideoInfo(video)"
+      />
+      <van-pagination
+          v-model="pageNum"
+          :items-per-page="pageSize"
+          :total-items="total"
+          :show-page-size="3"
+          force-ellipses
+          @change="searchVideo"
       />
     </van-skeleton>
   </div>

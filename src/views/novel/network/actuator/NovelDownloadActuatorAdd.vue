@@ -59,13 +59,15 @@ for (const novelDownloader of novelDownloaderList) {
       <van-cell-group inset>
         <van-field
             v-model="novelName"
-            name="validator"
+            name="novelName"
             placeholder="小说名"
+            clearable
             :rules="[{ required:true, message: '小说名不能为空' }]"/>
         <van-field
             v-model="catalogueUrl"
             name="catalogueUrl"
             placeholder="目录 Url"
+            clearable
             :rules="[{ required:true, message: '目录 Url 不能为空' }]"/>
         <van-field
             v-model="downloaderMark"
@@ -83,7 +85,7 @@ for (const novelDownloader of novelDownloaderList) {
               @cancel="showDownloaderMark = false"
           />
         </van-popup>
-        <van-field name="radio" label="下载">
+        <van-field name="parallelDownload" label="下载">
           <template #input>
             <van-radio-group v-model="parallelDownload" direction="horizontal">
               <van-radio name="false">串行</van-radio>

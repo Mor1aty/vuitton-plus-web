@@ -1,7 +1,7 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
 import {useSetting, useVideo} from "@/stores/store.js";
-import {ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
 import {apiSendWrapFunc, apiSendWrapFuncWithoutLoading} from "@/request/request.js";
 import {apiFindAroundEpisode, apiInsertPlayHistory} from "@/request/api/video.js";
 import OptPreNext from "@/components/OptPreNext.vue";
@@ -85,6 +85,14 @@ const updateSetting = () => {
     showSuccessToast("更新成功");
   }
 };
+
+onMounted(() => {
+  videoKey.value++;
+});
+
+onUnmounted(() => {
+  videoKey.value++;
+});
 
 if (!video || !video.id || playIndex === -1) {
   router.push({name: "video"});

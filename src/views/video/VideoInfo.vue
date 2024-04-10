@@ -76,7 +76,7 @@ if (!video || !video.id) {
   <InfoCard
       v-if="video"
       :title="video.name"
-      :description="video.description"
+      :description="'创建时间: '+video.createTime+'\n简介: '+video.description"
       :img-url="video.imgUrl"/>
   <div class="content" v-if="video">
     <van-cell v-if="continuePlay">

@@ -13,8 +13,9 @@ const novelLocalStore = useNovelLocal();
 const searchName = ref(novelLocalStore.$state.searchName);
 const skeletonLoading = ref(false);
 const novelList = ref([]);
-const pageNum = 1;
-const pageSize = 100;
+const total = ref(0);
+const pageNum = ref(1);
+const pageSize = 5;
 const operates = [
   {
     text: "阅读历史",
@@ -28,20 +29,17 @@ const operates = [
   },
 ];
 
-const findNovel = () => {
+const searchNovel = () => {
   apiSendWrapFunc(apiFindNovel({
         name: searchName.value,
-        pageNum: pageNum,
+        pageNum: pageNum.value,
         pageSize: pageSize,
       }),
       (data) => {
         novelList.value = data.list;
+        total.value = data.total;
       }
   );
-};
-
-const searchNovel = () => {
-  findNovel();
 };
 
 const goNovelInfo = (novel) => {
@@ -65,7 +63,7 @@ const deleteNovel = (id, name) => {
   });
 }
 
-findNovel();
+searchNovel();
 </script>
 
 <template>
@@ -80,10 +78,18 @@ findNovel();
           v-for="novel in novelList"
           :title="novel.name"
           :sub-title="novel.author"
-          :description="novel.intro"
+          :description="'创建时间: '+novel.createTime+'\n简介: '+novel.intro"
           :img-url="novel.imgUrl"
           :on-click="()=>goNovelInfo(novel)"
           :opt-delete="()=>deleteNovel(novel.id, novel.name)"
+      />
+      <van-pagination
+          v-model="pageNum"
+          :items-per-page="pageSize"
+          :total-items="total"
+          :show-page-size="3"
+          force-ellipses
+          @change="searchNovel"
       />
     </van-skeleton>
   </div>

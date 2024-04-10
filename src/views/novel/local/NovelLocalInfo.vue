@@ -80,7 +80,7 @@ if (!novel || !novel.id) {
       v-if="novel"
       :title="novel.name"
       :sub-title="novel.author"
-      :description="novel.intro"
+      :description="'创建时间: '+novel.createTime+'\n简介: '+novel.intro"
       :img-url="novel.imgUrl"/>
   <div class="content" v-if="novel">
     <van-cell v-if="continueRead">
