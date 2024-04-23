@@ -5,7 +5,8 @@ import "xgplayer/dist/index.min.css";
 import {onMounted, onUnmounted, ref} from "vue";
 
 const fileServerUrl = useServerInfo().$state.fileServerUrl;
-const props = defineProps(["videoSrc", "goNext", "jumpSecond", "insertHistory", "skipOpEd", "ops", "eds"]);
+const props = defineProps(["videoSrc", "goNext", "jumpSecond", "isFullscreen", "changeFullscreen",
+  "insertHistory", "skipOpEd", "ops", "eds"]);
 const video = ref();
 const videoRef = ref(null);
 const intervalInsertPlayHistory = ref(0);
@@ -49,6 +50,8 @@ onMounted(() => {
     playnext: {
       urlList: props.goNext ? [""] : [],
     },
+    initShow: true,
+    pip: true,
   });
 
   player.once(Events.COMPLETE, () => {
@@ -61,6 +64,10 @@ onMounted(() => {
     props.goNext();
   })
 
+  player.on(Events.FULLSCREEN_CHANGE, (isFullscreen) => {
+    props.changeFullscreen(isFullscreen);
+  })
+
   if (props.skipOpEd && (props.ops || props.eds)) {
     player.on(Events.TIME_UPDATE, () => {
       skipOpEd();
@@ -71,6 +78,10 @@ onMounted(() => {
     props.insertHistory(player.currentTime, false);
   }, 20 * 1000);
 
+  if (props.isFullscreen) {
+    player.getRotateFullscreen();
+  }
+
   video.value = player;
 });
 
@@ -79,7 +90,6 @@ onUnmounted(() => {
     clearInterval(intervalInsertPlayHistory.value);
     props.insertHistory(video.value.currentTime, true);
   }
-  video.value.destroy();
 });
 
 </script>

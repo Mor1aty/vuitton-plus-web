@@ -14,7 +14,7 @@ const router = useRouter();
 const videoStore = useVideo();
 const video = videoStore.$state.video;
 let playIndex = videoStore.$state.playIndex;
-const continueSecond = videoStore.$state.continueSecond;
+let continueSecond = videoStore.$state.continueSecond;
 const videoPlayerSetting = useSetting().$state.videoPlayer;
 const aroundEpisode = ref({});
 const videoKey = ref(0);
@@ -22,6 +22,7 @@ const ops = ref(null);
 const eds = ref(null);
 const settingSkipOpEd = ref(videoPlayerSetting
     && videoPlayerSetting.skipOpEdName && videoPlayerSetting.skipOpEd);
+const isFullscreen = ref(false);
 
 const searchAroundEpisode = () => {
   apiSendWrapFunc(apiFindAroundEpisode({
@@ -45,8 +46,9 @@ const searchAroundEpisode = () => {
 };
 
 const goAnotherEpisode = (anotherIndex) => {
-  videoStore.$patch({playIndex: anotherIndex});
+  videoStore.$patch({playIndex: anotherIndex, continueSecond: null});
   playIndex = anotherIndex;
+  continueSecond = null;
   searchAroundEpisode();
 }
 
@@ -86,6 +88,10 @@ const updateSetting = () => {
   }
 };
 
+const changeFullscreen = (val) => {
+  isFullscreen.value = val;
+};
+
 onMounted(() => {
   videoKey.value++;
 });
@@ -105,8 +111,10 @@ if (!video || !video.id || playIndex === -1) {
   <Navbar title="视频" back="videoInfo"/>
   <div class="video-title" v-if="aroundEpisode.episode">{{ aroundEpisode.episode.name }}</div>
   <XgpVideoPlayer :key="videoKey" v-if="aroundEpisode.episode" :video-src="aroundEpisode.episode.url"
-                  :go-next="aroundEpisode.nextEpisode?()=>goAnotherEpisode(aroundEpisode.nextEpisode.index):null"
-                  :jump-second="continueSecond" :insert-history="insertPlayHistory"
+                  :go-next="aroundEpisode.nextEpisode?
+                  ()=>goAnotherEpisode(aroundEpisode.nextEpisode.index):null"
+                  :change-fullscreen="changeFullscreen"
+                  :jump-second="continueSecond" :is-fullscreen="isFullscreen" :insert-history="insertPlayHistory"
                   :skip-op-ed="settingSkipOpEd" :ops="ops" :eds="eds"/>
   <OptPreNext
       pre-text="上一集"

@@ -19,7 +19,7 @@ const continuePlay = ref(null);
 
 const searchEpisode = () => {
   apiSendWrapFunc(apiFindEpisode({
-        videoId: video.id,
+        videoId: video.videoId,
         pageNum: pageNum.value,
         pageSize: pageSize,
       }),
@@ -37,7 +37,7 @@ const goVideoPlay = (playIndex, continueSecond) => {
 
 const findPlayHistory = () => {
   apiSendWrapFunc(apiFindPlayHistory({
-        videoId: video.id,
+        videoId: video.videoId,
         limitNum: 1,
       }),
       (data) => {
@@ -58,12 +58,12 @@ const showPlayTime = (continuePlay) => {
 };
 
 onMounted(() => {
-  if (video || video.id) {
+  if (video || video.videoId) {
     findPlayHistory();
   }
 });
 
-if (!video || !video.id) {
+if (!video || !video.videoId) {
   router.push({name: "video"});
 } else {
   searchEpisode();
@@ -75,9 +75,9 @@ if (!video || !video.id) {
   <Navbar title="视频" back="video"/>
   <InfoCard
       v-if="video"
-      :title="video.name"
-      :description="'创建时间: '+video.createTime+'\n简介: '+video.description"
-      :img-url="video.imgUrl"/>
+      :title="video.videoName"
+      :description="'创建时间: '+video.videoCreateTime+'\n简介: '+video.videoDescription"
+      :img-url="video.videoImgUrl"/>
   <div class="content" v-if="video">
     <van-cell v-if="continuePlay">
       <template #title>

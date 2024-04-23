@@ -15,7 +15,7 @@ const playHistoryList = ref([]);
 
 const findPlayHistory = () => {
   apiSendWrapFunc(apiFindPlayHistory({
-        videoId: video ? video.id : null,
+        videoId: video ? video.videoId : null,
       }),
       (data) => {
         playHistoryList.value = data;

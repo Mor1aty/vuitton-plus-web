@@ -46,7 +46,6 @@ export const useVideo
     = defineStore("video", {
     state: () => {
         return {
-            searchName: "",
             video: {},
             playIndex: -1,
             historyBack: "",
