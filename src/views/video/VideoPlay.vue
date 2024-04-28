@@ -26,7 +26,7 @@ const isFullscreen = ref(false);
 
 const searchAroundEpisode = () => {
   apiSendWrapFunc(apiFindAroundEpisode({
-        videoId: video.id,
+        videoId: video.videoId,
         episodeIndex: playIndex,
       }),
       (data) => {
@@ -54,7 +54,7 @@ const goAnotherEpisode = (anotherIndex) => {
 
 const insertPlayHistory = (playSecond, store) => {
   apiSendWrapFuncWithoutLoading(apiInsertPlayHistory({
-        videoId: video.id,
+        videoId: video.videoId,
         episodeId: aroundEpisode.value.episode.id,
         episodePlaySecond: playSecond,
         store: store,
@@ -100,7 +100,7 @@ onUnmounted(() => {
   videoKey.value++;
 });
 
-if (!video || !video.id || playIndex === -1) {
+if (!video || !video.videoId || playIndex === -1) {
   router.push({name: "video"});
 } else {
   searchAroundEpisode();

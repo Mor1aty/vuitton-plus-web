@@ -51,8 +51,8 @@ searchAroundChapter();
       next-text="下一章"
       :next-click="()=>goAnotherChapter(aroundChapter.nextChapter.index)"
       :next-if="aroundChapter.nextChapter"/>
-  <div class="novel-content" v-if="aroundChapter.chapter">
-    <div class="novel-content-text" v-html="aroundChapter.chapter.contentHtml"></div>
+  <div class="novel-content" v-if="aroundChapter.content">
+    <div class="novel-content-text" v-html="aroundChapter.content.contentHtml"></div>
   </div>
   <OptPreNext
       pre-text="上一章"
