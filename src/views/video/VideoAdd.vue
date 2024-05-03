@@ -24,6 +24,7 @@ const importVideo = () => {
           cancelButtonText: "继续新增",
         }).then(() => {
           router.push({name: "video"});
+        }).catch(() => {
         });
       }
   );

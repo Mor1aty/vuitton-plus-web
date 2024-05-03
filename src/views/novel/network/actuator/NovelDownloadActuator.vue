@@ -83,7 +83,11 @@ searchActuatorSnapshot();
     <van-index-anchor>执行中的小说下载器</van-index-anchor>
     <van-swipe-cell v-for="actuator in runningActuator">
       <van-cell :title="actuator.meta.novelName+'['+actuator.meta.novelDownloaderMeta.mark+']'"
-                :label="actuator.meta.id" @click="goActuatorInfo(actuator)"/>
+                :label="actuator.meta.id" @click="goActuatorInfo(actuator)">
+        <template #right-icon>
+          <van-icon name="pause-circle" color="#04ff04" size="1.5rem"/>
+        </template>
+      </van-cell>
       <template #right>
         <van-button square text="打断" type="danger" class="opt-button" @click="actuatorInterrupt(actuator.meta.id)"/>
       </template>
@@ -92,7 +96,12 @@ searchActuatorSnapshot();
     <van-index-anchor>已结束的小说下载器</van-index-anchor>
     <van-swipe-cell v-for="actuator in storageActuator">
       <van-cell :title="actuator.meta.novelName+'['+actuator.meta.novelDownloaderMeta.mark+']'"
-                :label="actuator.meta.id" @click="goActuatorInfo(actuator)"/>
+                :label="actuator.meta.id" @click="goActuatorInfo(actuator)">
+        <template #right-icon>
+          <van-icon v-if="actuator.result === 1" name="success" color="#04ff04" size="1.5rem"/>
+          <van-icon v-if="actuator.result === 2" name="cross" color="red" size="1.5rem"/>
+        </template>
+      </van-cell>
       <template #right>
         <van-button square text="删除" type="danger" class="opt-button" @click="actuatorDelete(actuator.meta.id)"/>
       </template>

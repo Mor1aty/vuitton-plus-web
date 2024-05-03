@@ -35,6 +35,7 @@ const previewData = (key, val) => {
     messageAlign: "left",
     cancelButtonText: "复制",
     cancelButtonColor: "rgba(0,128,0,0.7)",
+  }).then(() => {
   }).catch(async () => {
     try {
       await clipboard.toClipboard(showVal);

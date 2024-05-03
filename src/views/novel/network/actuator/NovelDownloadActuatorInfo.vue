@@ -4,8 +4,8 @@ import {useNovelDownloadActuator} from "@/stores/store.js";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
 import {apiSendWrapFunc} from "@/request/request.js";
-import {apiActuatorSnapshot} from "@/request/api/novel_network.js";
-import {showToast} from "vant";
+import {apiActuatorDownload, apiActuatorSnapshot} from "@/request/api/novel_network.js";
+import {showConfirmDialog, showSuccessToast, showToast} from "vant";
 import useClipboard from "vue-clipboard3";
 
 const router = useRouter();
@@ -44,6 +44,26 @@ const shuttleToDownloaderWeb = (website) => {
   window.open(website);
 };
 
+const restartExec = () => {
+  showConfirmDialog({
+    title: "再次执行",
+    confirmButtonText: "执行",
+    cancelButtonText: "取消",
+  }).then(() => {
+    apiSendWrapFunc(apiActuatorDownload({
+          name: actuator.value.meta.novelName,
+          catalogueUrl: actuator.value.meta.novelCatalogueUrl,
+          downloaderMark: actuator.value.meta.novelDownloaderMeta.mark,
+          parallel: actuator.value.meta.parallel,
+        }),
+        () => {
+          showSuccessToast("下载开始");
+          router.push({name: "novelDownloadActuator"});
+        });
+  }).catch(()=>{
+  });
+}
+
 if (!actuator.value) {
   router.push({name: "novelDownloadActuator"});
 }
@@ -56,11 +76,17 @@ if (!actuator.value) {
     <van-index-anchor>数据</van-index-anchor>
     <van-cell-group inset>
       <van-field label="ID" v-model="actuator.meta.id" readonly/>
+      <van-field label="下载小说" v-model="actuator.meta.novelName" readonly/>
       <van-field label="状态" readonly>
         <template #input>
-          <van-tag :type="actuator.running?'success':'primary'" size="large">
-            {{ actuator.running ? "运行中" : "已结束" }}
-          </van-tag>
+          <van-space>
+            <van-tag :type="actuator.running?'success':'primary'" size="large">
+              {{ actuator.running ? "运行中" : "已结束" }}
+            </van-tag>
+            <van-tag v-if="!actuator.running" :type="actuator.result===1?'success':'danger'" size="large">
+              {{ actuator.result === 1 ? "执行成功" : "执行失败" }}
+            </van-tag>
+          </van-space>
         </template>
       </van-field>
       <van-collapse v-model="actuatorDataActive">
@@ -148,9 +174,14 @@ if (!actuator.value) {
           <van-tag type="primary" @click="goActuatorStepData" size="large">查看</van-tag>
         </template>
       </van-field>
+      <van-field label="再次执行" readonly v-if="!actuator.running">
+        <template #input>
+          <van-tag type="warning" @click="restartExec" size="large">执行</van-tag>
+        </template>
+      </van-field>
       <van-field label="查看本地小说" readonly v-if="!actuator.running">
         <template #input>
-          <van-tag type="primary" @click="goNovelLocal" size="large">查看</van-tag>
+          <van-tag type="success" @click="goNovelLocal" size="large">查看</van-tag>
         </template>
       </van-field>
     </van-cell-group>
