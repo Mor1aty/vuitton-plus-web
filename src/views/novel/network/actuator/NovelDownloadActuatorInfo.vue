@@ -60,7 +60,7 @@ const restartExec = () => {
           showSuccessToast("下载开始");
           router.push({name: "novelDownloadActuator"});
         });
-  }).catch(()=>{
+  }).catch(() => {
   });
 }
 
@@ -153,13 +153,14 @@ if (!actuator.value) {
     <div v-if="actuator.runningProgress">
       <van-index-anchor>运行状态</van-index-anchor>
       <van-cell-group inset>
-        <van-field label="当前步骤" readonly>
-          <template #input>
-            第{{ actuator.runningProgress.currentStepIndex }}步 {{ actuator.runningProgress.currentStep.name }}
-          </template>
-        </van-field>
-        <van-field label="当前步骤进度" v-model="actuator.runningProgress.currentStepProgress" readonly/>
-        <van-field label="总步骤数" v-model="actuator.runningProgress.totalStep" readonly/>
+        <van-steps direction="vertical" :active="actuator.runningProgress.currentStepIndex-1">
+          <van-step v-for="(step, index) in actuator.stepList">
+            <h3>{{ step.name }}</h3>
+            <p v-if="index===actuator.runningProgress.currentStepIndex-1">
+              {{ actuator.runningProgress.currentStepProgress }}
+            </p>
+          </van-step>
+        </van-steps>
         <van-field label="刷新" readonly>
           <template #input>
             <van-tag type="primary" @click="refreshActuator" size="large">刷新</van-tag>
