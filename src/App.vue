@@ -1,6 +1,6 @@
 <script setup>
 import {RouterView} from 'vue-router'
-import "@/assets/content.css"
+
 </script>
 
 <template>
@@ -11,6 +11,10 @@ import "@/assets/content.css"
 
 <style scoped>
 .view {
-  margin: 0.2rem;
+  margin: 0.3rem;
+}
+
+div {
+  font-family: "SanJiBangKaiJianTi", serif;
 }
 </style>

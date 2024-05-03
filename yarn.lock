@@ -127,6 +127,11 @@
   resolved "https://registry.npmmirror.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.15.tgz#d7c6e6755c78567a951e04ab52ef0fd26de59f32"
   integrity sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==
 
+"@popperjs/core@^2.11.6":
+  version "2.11.8"
+  resolved "https://registry.npmmirror.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
+  integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
+
 "@rollup/rollup-android-arm-eabi@4.9.6":
   version "4.9.6"
   resolved "https://registry.npmmirror.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.9.6.tgz#66b8d9cb2b3a474d115500f9ebaf43e2126fe496"
@@ -206,6 +211,35 @@
   version "1.6.0"
   resolved "https://registry.npmmirror.com/@vant/use/-/use-1.6.0.tgz#237df3091617255519552ca311ffdfea9de59001"
   integrity sha512-PHHxeAASgiOpSmMjceweIrv2AxDZIkWXyaczksMoWvKV2YAYEhoizRuk/xFnKF+emUIi46TsQ+rvlm/t2BBCfA==
+
+"@varlet/icons@3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmmirror.com/@varlet/icons/-/icons-3.2.7.tgz#14abac6dc0b5a55489efc4410f9e58729e509f04"
+  integrity sha512-DynVvxlcLgdfVOd4VKShb0fFMFB8GaYGMdFhb++ElS1iLK/DHPAH73/GAj19FJ/PFhCpw2olhfvVwstjYx2L0A==
+
+"@varlet/shared@3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmmirror.com/@varlet/shared/-/shared-3.2.7.tgz#4a17aafb745bd79b09e51218dbfb5b1bf07ec803"
+  integrity sha512-cj9XeEtJVkSFq5V4dcjRgJWoEuU7woOCt91t76+Q8PIF0Hm+PPf/ekzbuXC9pmma5MApzJuhv+RHjqfRTnObjQ==
+
+"@varlet/ui@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmmirror.com/@varlet/ui/-/ui-3.2.7.tgz#d79da26c2ddf213e7f8e31723995f257d0a658be"
+  integrity sha512-YpvChK7kA8Y0mzQuIrLzAg8td0Scf6YutlT9J85CEmGOF+RbaKrti50FnJJ1c8QHq/R/xrFyerC5uSGj+PUzfw==
+  dependencies:
+    "@popperjs/core" "^2.11.6"
+    "@varlet/icons" "3.2.7"
+    "@varlet/shared" "3.2.7"
+    "@varlet/use" "3.2.7"
+    dayjs "^1.10.4"
+    decimal.js "^10.2.1"
+
+"@varlet/use@3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmmirror.com/@varlet/use/-/use-3.2.7.tgz#5d14cf38f314befb9500a80ed148befd2f76e622"
+  integrity sha512-w9LqBKcobekYrLuUASjh/noeeLyC4IVaZmv6bo1XBraBPf7hxDUjlCgWs8I1Wzmum4eqc/Z247gp2iGkWuktZw==
+  dependencies:
+    "@varlet/shared" "3.2.7"
 
 "@vitejs/plugin-vue@^5.0.3":
   version "5.0.3"
@@ -345,6 +379,16 @@ danmu.js@>=1.1.6:
   integrity sha512-knFd0/cB2HA4FFWiA7eB2suc5vCvoHdqio33FyyCSfP7C+1A+zQcTvnvwfxaZhrxsGj4qaQI2I8XiTqedRaVmg==
   dependencies:
     event-emitter "^0.3.5"
+
+dayjs@^1.10.4:
+  version "1.11.11"
+  resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.11.tgz#dfe0e9d54c5f8b68ccf8ca5f72ac603e7e5ed59e"
+  integrity sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==
+
+decimal.js@^10.2.1:
+  version "10.4.3"
+  resolved "https://registry.npmmirror.com/decimal.js/-/decimal.js-10.4.3.tgz#1044092884d245d1b7f65725fa4ad4c6f781cc23"
+  integrity sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==
 
 delayed-stream@~1.0.0:
   version "1.0.0"

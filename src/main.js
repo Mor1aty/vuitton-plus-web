@@ -6,15 +6,19 @@ import router from './router'
 import {apiInfo, apiSetting} from "@/request/api/common.js";
 import {SUCCESS_CODE} from "@/request/request.js";
 import {useServerInfo, useSetting} from "@/stores/store.js";
-import "./main.css"
 import Vant from "vant";
 import 'vant/lib/index.css';
+import Varlet from '@varlet/ui'
+import '@varlet/ui/es/style'
+import "./assets/font.css"
+import "./main.css"
 
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
-app.mount('#app');
 app.use(Vant);
+app.use(Varlet);
+app.mount('#app');
 
 const initInfo = async () => {
     const {code, msg, data} = await apiInfo()();
